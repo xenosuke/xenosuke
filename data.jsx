@@ -16,6 +16,7 @@ const PROJECTS = [
   {
     id: 2,
     title: "止めどきポーション工房",
+    image: "textures/002.png",
     subtitle: "2Dパズル",
     year: "2025",
     role: "個人開発",
