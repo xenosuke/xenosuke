@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fff8f0;
+    --fg: #1a1525;
+    --surface: #ffffff;
+    --border: #1a1525;
+    --a1: #ff6b9d;
+    --a2: #7ad3a8;
+    --a3: #a47bff;
+    --a4: #ff8a5b;
+    --a5: #ffd166;
+  }
+  [data-dark="1"] {
+    --bg: #1a1525;
+    --fg: #fff8f0;
+    --surface: #241d35;
+    --border: #fff8f0;
+    --a1: #ff6b9d;
+    --a2: #7ad3a8;
+    --a3: #a47bff;
+    --a4: #ff8a5b;
+    --a5: #ffd166;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Space Grotesk', system-ui, -apple-system, 'Hiragino Kaku Gothic ProN', sans-serif;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--a1); color: var(--bg); }
+  a { color: inherit; }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg); backdrop-filter: blur(8px);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .nav-logo {
+    font-size: 18px; font-weight: 700; letter-spacing: -0.02em; text-decoration: none;
+    color: var(--fg);
+  }
+  .nav-logo span { color: var(--a1); }
+  .nav-right { display: flex; gap: 20px; align-items: center; }
+  .nav-label {
+    font-family: ui-monospace, monospace; font-size: 11px;
+    letter-spacing: 0.15em; opacity: 0.5;
+    border: 1px solid var(--border); padding: 3px 10px; border-radius: 999px;
+  }
+  .nav-dark {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--border); background: transparent;
+    cursor: pointer; font-size: 14px; color: var(--fg);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .nav-dark:hover { background: var(--fg); color: var(--bg); }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 48px 48px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
+    position: relative; overflow: hidden;
+  }
+  .hero-shapes {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 240px;
+    pointer-events: none;
+  }
+  .hero-circle {
+    position: absolute; right: 48px; top: 24px;
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--a2); opacity: 0.85;
+  }
+  .hero-rect {
+    position: absolute; right: 140px; bottom: 16px;
+    width: 40px; height: 40px; border-radius: 8px;
+    background: var(--a3); transform: rotate(15deg); opacity: 0.85;
+  }
+  .hero-tri {
+    position: absolute; right: 28px; bottom: 20px;
+    width: 36px; height: 36px;
+    background: var(--a4);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    opacity: 0.85;
+  }
+  .hero-title {
+    font-size: clamp(32px, 6vw, 64px); font-weight: 700;
+    letter-spacing: -0.03em; line-height: 1; color: var(--fg);
+  }
+  .hero-title em {
+    background: var(--a1); color: var(--bg);
+    font-style: normal; padding: 0 0.12em; display: inline-block;
+    transform: rotate(-1.5deg);
+  }
+  .hero-meta {
+    font-family: ui-monospace, monospace; font-size: 11px;
+    opacity: 0.5; letter-spacing: 0.1em; line-height: 1.8; text-align: right; flex-shrink: 0;
+  }
+
+  /* ===== SEARCH ===== */
+  .search-bar {
+    padding: 24px 48px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .search-wrap { position: relative; flex: 1; max-width: 480px; }
+  .search-input {
+    width: 100%; padding: 10px 40px 10px 16px;
+    border: 1px solid var(--border); border-radius: 999px;
+    background: var(--surface); color: var(--fg);
+    font-family: inherit; font-size: 14px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-input:focus {
+    border-color: var(--a1);
+    box-shadow: 0 0 0 3px rgba(255,107,157,0.15);
+  }
+  .search-input::placeholder { color: var(--fg); opacity: 0.4; }
+  .search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; opacity: 0.4; pointer-events: none; }
+  .search-count { font-family: ui-monospace, monospace; font-size: 12px; opacity: 0.5; }
+
+  /* ===== SHELVES ===== */
+  .shelves { padding: 32px 48px 80px; }
+
+  .shelf { margin-bottom: 12px; }
+
+  .shelf-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 20px;
+    border: 1px solid var(--border); border-radius: 12px;
+    cursor: pointer; user-select: none;
+    background: var(--surface);
+    transition: background 0.15s, box-shadow 0.2s;
+  }
+  .shelf-header:hover { box-shadow: 4px 4px 0 var(--fg); }
+  .shelf-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .shelf-name { font-size: 16px; font-weight: 600; flex: 1; letter-spacing: -0.01em; }
+  .shelf-badge {
+    font-family: ui-monospace, monospace; font-size: 11px; opacity: 0.6;
+    border: 1px solid var(--border); padding: 2px 10px; border-radius: 999px;
+  }
+  .shelf-arrow { font-size: 11px; opacity: 0.5; transition: transform 0.25s; }
+  .shelf-arrow.open { transform: rotate(90deg); }
+
+  .shelf-body { overflow: hidden; transition: max-height 0.35s ease; }
+  .shelf-entries {
+    display: flex; flex-direction: column; gap: 2px;
+    padding: 6px 0 8px 20px;
+  }
+  .entry {
+    display: flex; align-items: baseline; gap: 12px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .entry:hover { background: var(--surface); }
+  .entry-num { font-family: ui-monospace, monospace; font-size: 10px; opacity: 0.4; flex-shrink: 0; width: 28px; }
+  .entry-link {
+    font-size: 14px; line-height: 1.5; text-decoration: none; color: var(--fg);
+    border-bottom: 1px solid transparent; transition: border-color 0.2s, color 0.2s;
+  }
+  .entry-link:hover { border-bottom-color: currentColor; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    padding: 24px 48px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: ui-monospace, monospace; font-size: 11px; opacity: 0.5;
+  }
+  .footer a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+
+  /* ===== TWEAKS ===== */
+  .tweaks-panel {
+    position: fixed; bottom: 24px; right: 24px; width: 220px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+    box-shadow: 6px 6px 0 var(--fg); z-index: 9999;
+    font-family: inherit; font-size: 12px; color: var(--fg);
+    display: none;
+  }
+  .tweaks-panel.visible { display: block; }
+  .tweaks-label { font-family: ui-monospace, monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; margin-bottom: 12px; }
+  .tweaks-row { display: flex; justify-content: space-between; align-items: center; }
+  .tweaks-switch {
+    width: 44px; height: 24px; border-radius: 12px;
+    border: 1px solid var(--border); background: transparent;
+    cursor: pointer; padding: 2px; display: flex;
+    transition: all 0.2s;
+  }
+  .tweaks-switch.on { background: var(--a1); justify-content: flex-end; }
+  .tweaks-switch:not(.on) { justify-content: flex-start; }
+  .tweaks-knob { width: 18px; height: 18px; border-radius: 50%; background: var(--fg); }
+  .tweaks-switch.on .tweaks-knob { background: var(--bg); }
+
+  mark { background: var(--a5); color: var(--fg); border-radius: 2px; padding: 0 1px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="./index.html">suke<span>.</span></a>
+  <div class="nav-right">
+    <span class="nav-label">PRIVATE</span>
+    <button class="nav-dark" id="dark-btn" aria-label="ダークモード切替">☀</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-shapes">
+    <div class="hero-circle"></div>
+    <div class="hero-rect"></div>
+    <div class="hero-tri"></div>
+  </div>
+  <div>
+    <div class="hero-title">
+      suke's <em>notes</em>
+    </div>
+    <div style="margin-top:12px;font-size:14px;opacity:0.6;font-family:ui-monospace,monospace;letter-spacing:0.05em">
+      Qiita 非公開記事リンク集
+    </div>
+  </div>
+  <div class="hero-meta" id="hero-meta">— articles</div>
+</div>
+
+<div class="search-bar">
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="search-input" placeholder="記事を絞り込む…">
+    <span class="search-icon">⌕</span>
+  </div>
+  <span class="search-count" id="search-count"></span>
+</div>
+
+<div class="shelves" id="shelves"></div>
+
+<footer class="footer">
+  <span>noindex · このページは非公開です</span>
+  <a href="./index.html">← portfolio へ戻る</a>
+</footer>
+
+<div class="tweaks-panel" id="tweaks-panel">
+  <div class="tweaks-label">▼ Tweaks</div>
+  <div class="tweaks-row">
+    <span style="font-size:12px;opacity:0.7">ダークモード</span>
+    <button class="tweaks-switch" id="tweaks-switch">
+      <div class="tweaks-knob"></div>
+    </button>
+  </div>
+</div>
+
+<script>
+const CATEGORIES = [
+  {
+    id: "cpp", name: "C++", accent: "var(--a3)",
+    articles: [
+      { title: "C++ でのメモリ管理入門：スタックとヒープを理解する", url: "#" },
+      { title: "スマートポインタ (unique_ptr / shared_ptr) 実践ガイド", url: "#" },
+      { title: "テンプレートメタプログラミングで型安全なコンポーネントを作る", url: "#" },
+      { title: "C++17 の構造化束縛でコードをスッキリさせる", url: "#" },
+      { title: "constexpr を使った定数式の最適化テクニック", url: "#" },
+      { title: "ムーブセマンティクスを完全理解する", url: "#" },
+    ],
+  },
+  {
+    id: "winapi", name: "Windows API", accent: "var(--a2)",
+    articles: [
+      { title: "Win32 API でウィンドウを作るミニマル実装", url: "#" },
+      { title: "メッセージループを自分で書いて理解する", url: "#" },
+      { title: "WM_PAINT と GDI による基本的な描画処理", url: "#" },
+      { title: "タイマー (SetTimer) を使ったゲームループの実装", url: "#" },
+      { title: "Raw Input でマウス・キーボードを直接取得する", url: "#" },
+      { title: "マルチウィンドウ構成と子ウィンドウの管理", url: "#" },
+    ],
+  },
+  {
+    id: "directx", name: "DirectX / DirectXTK", accent: "var(--a1)",
+    articles: [
+      { title: "DirectX 12 初期化のボイラープレートを最小構成で書く", url: "#" },
+      { title: "SwapChain と RenderTarget の仕組みをちゃんと理解する", url: "#" },
+      { title: "頂点バッファ・インデックスバッファの作り方", url: "#" },
+      { title: "HLSL でピクセルシェーダーを書いて色を変える", url: "#" },
+      { title: "DirectXTK の SpriteBatch で 2D 描画を爆速実装", url: "#" },
+      { title: "DirectXTK12 の SimpleMath を使ったベクトル/行列演算", url: "#" },
+      { title: "コンスタントバッファで行列を GPU に渡す仕組み", url: "#" },
+    ],
+  },
+  {
+    id: "dxlib", name: "DXライブラリ", accent: "var(--a4)",
+    articles: [
+      { title: "DXライブラリ環境構築 (Visual Studio 2022)", url: "#" },
+      { title: "DrawGraph / LoadGraph で画像を表示する基本", url: "#" },
+      { title: "SetDrawScreen でレンダリングターゲットを切り替える", url: "#" },
+      { title: "DXライブラリで当たり判定を自作する", url: "#" },
+      { title: "サウンド再生 (PlaySoundMem) の注意点まとめ", url: "#" },
+      { title: "ゲームステートマネージャを DXライブラリで作る", url: "#" },
+    ],
+  },
+  {
+    id: "unity", name: "C# / Unity", accent: "var(--a5)",
+    articles: [
+      { title: "UniTask で非同期処理を分かりやすく書く", url: "#" },
+      { title: "ScriptableObject でマスターデータを管理する設計パターン", url: "#" },
+      { title: "Shader Graph でディゾルブエフェクトを作る", url: "#" },
+      { title: "ML-Agents を使って敵 AI に強化学習させてみた", url: "#" },
+      { title: "ジェスチャー入力の認識アルゴリズムを C# で自作する", url: "#" },
+    ],
+  },
+];
+
+const TOTAL = CATEGORIES.reduce((s, c) => s + c.articles.length, 0);
+
+let dark = localStorage.getItem("notes-dark") === "1";
+let query = "";
+let openState = Object.fromEntries(CATEGORIES.map((c, i) => [c.id, i === 0]));
+
+function hl(text, q) {
+  if (!q) return text;
+  const i = text.toLowerCase().indexOf(q.toLowerCase());
+  if (i === -1) return text;
+  return text.slice(0, i) + "<mark>" + text.slice(i, i + q.length) + "</mark>" + text.slice(i + q.length);
+}
+
+function applyDark() {
+  document.documentElement.setAttribute("data-dark", dark ? "1" : "0");
+  document.getElementById("dark-btn").textContent = dark ? "☾" : "☀";
+  const sw = document.getElementById("tweaks-switch");
+  sw.classList.toggle("on", dark);
+  localStorage.setItem("notes-dark", dark ? "1" : "0");
+}
+
+function render() {
+  applyDark();
+  document.getElementById("hero-meta").textContent = TOTAL + " articles · 2026.04";
+
+  const shelves = document.getElementById("shelves");
+  shelves.innerHTML = "";
+  let matchTotal = 0;
+
+  CATEGORIES.forEach((cat, ci) => {
+    const filtered = query
+      ? cat.articles.filter(a => a.title.toLowerCase().includes(query.toLowerCase()))
+      : cat.articles;
+    if (query && filtered.length === 0) return;
+    matchTotal += filtered.length;
+
+    const isOpen = query ? true : openState[cat.id];
+    const badge = query ? `${filtered.length} / ${cat.articles.length} 件` : `${cat.articles.length} 件`;
+    const itemH = 38;
+    const bodyH = filtered.length * itemH + 20;
+
+    const shelf = document.createElement("div");
+    shelf.className = "shelf";
+    shelf.innerHTML = `
+      <div class="shelf-header" data-id="${cat.id}">
+        <div class="shelf-dot" style="background:${cat.accent}"></div>
+        <span class="shelf-name">${cat.name}</span>
+        <span class="shelf-badge">${badge}</span>
+        <span class="shelf-arrow ${isOpen ? "open" : ""}">▶</span>
+      </div>
+      <div class="shelf-body" style="max-height:${isOpen ? bodyH : 0}px">
+        <div class="shelf-entries">
+          ${filtered.map((a, ai) => `
+            <div class="entry">
+              <span class="entry-num">${String(ai + 1).padStart(3, "0")}</span>
+              <a href="${a.url}" class="entry-link" target="_blank" rel="noopener">${hl(a.title, query)}</a>
+            </div>`).join("")}
+        </div>
+      </div>`;
+
+    shelf.querySelector(".shelf-header").addEventListener("click", () => {
+      openState[cat.id] = !openState[cat.id];
+      render();
+    });
+    shelves.appendChild(shelf);
+  });
+
+  const countEl = document.getElementById("search-count");
+  countEl.textContent = query ? `${matchTotal} 件ヒット` : "";
+}
+
+// Events
+document.getElementById("dark-btn").addEventListener("click", () => { dark = !dark; render(); });
+document.getElementById("tweaks-switch").addEventListener("click", () => { dark = !dark; render(); });
+document.getElementById("search-input").addEventListener("input", e => { query = e.target.value; render(); });
+
+// Tweaks panel
+window.addEventListener("message", e => {
+  if (!e.data) return;
+  if (e.data.type === "__activate_edit_mode") document.getElementById("tweaks-panel").classList.add("visible");
+  if (e.data.type === "__deactivate_edit_mode") document.getElementById("tweaks-panel").classList.remove("visible");
+});
+window.parent.postMessage({ type: "__edit_mode_available" }, "*");
+
+render();
+</script>
+</body>
+</html>
