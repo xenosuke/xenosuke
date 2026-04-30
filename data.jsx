@@ -3,12 +3,13 @@
 const PROJECTS = [
   {
     id: 1,
-    title: "Pixel Drift",
-    subtitle: "2Dレーシング / トップダウンビュー",
+    title: "演出愛は止まらない！",
+    image: "textures/001.png",
+    subtitle: "2Dアクション / サイドビュー",
     year: "2025",
     role: "個人開発",
-    tools: ["Unity", "C#", "Aseprite"],
-    description: "ピクセルアートで描かれたトップダウン視点のレーシングゲーム。摩擦と慣性のシミュレーションを丁寧に調整し、ドリフトの気持ちよさを追求しました。",
+    tools: ["Unity", "C#"],
+    description: "シンプルな横スクロールジャンプアクションゲーム。過剰な演出というメタな方法でプレイヤーを妨害してきます。",
     palette: ["#ff6b9d", "#ffc16b", "#3b3b58"],
     status: "リリース済み",
   },
