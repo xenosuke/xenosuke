@@ -35,11 +35,11 @@ function Hero() {
         fontWeight: 700, lineHeight: 1, letterSpacing: "-0.03em",
         margin: 0, color: "var(--fg)", maxWidth: "70%",
       }}>
-        つくった<span style={{
+        A Selection of My Game <span style={{
           background: "var(--accent-1)", color: "var(--bg)",
           padding: "0 0.15em", display: "inline-block",
           transform: "rotate(-2deg)",
-        }}>ゲーム</span>たち
+        }}>Game</span>Projects
       </h1>
     </header>
   );
