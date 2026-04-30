@@ -72,7 +72,10 @@ function ProjectsView({ projects }) {
             }}
           >
             <div style={{ aspectRatio: "16 / 10", borderBottom: "1px solid var(--border)" }}>
-              <GamePlaceholder palette={p.palette} label={`${p.title.toLowerCase()}_01.png`} seed={p.id} />
+              {p.image
+                ? <img src={p.image} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                : <GamePlaceholder palette={p.palette} label={`${p.title.toLowerCase()}_01.png`} seed={p.id} />
+              }
             </div>
             <div style={{ padding: 24 }}>
               <div style={{
