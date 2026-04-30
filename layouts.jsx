@@ -1,8 +1,6 @@
-// layouts.jsx - Playful レイアウトのみ
-
 const { useState: useStateL } = React;
 
-// ===== ヒーロー（Playful） =====
+// ヒーローカード
 function Hero() {
   return (
     <header style={{ padding: "48px 48px 40px", position: "relative", overflow: "hidden" }}>
@@ -27,7 +25,7 @@ function Hero() {
         fontFamily: "ui-monospace, 'SF Mono', Menlo, monospace",
         fontSize: 11, letterSpacing: "0.2em", opacity: 0.6, marginBottom: 16,
       }}>
-        ★ SUKE'S GAME SHELF ★
+        ★ SUKENOSUKE'S GAME SHELF ★
       </div>
       <h1 style={{
         fontFamily: "'Space Grotesk', system-ui, sans-serif",
@@ -35,7 +33,7 @@ function Hero() {
         fontWeight: 700, lineHeight: 1, letterSpacing: "-0.03em",
         margin: 0, color: "var(--fg)", maxWidth: "70%",
       }}>
-        A Selection of My Game <span style={{
+        A Selection of My <span style={{
           background: "var(--accent-1)", color: "var(--bg)",
           padding: "0 0.15em", display: "inline-block",
           transform: "rotate(-2deg)",
@@ -45,7 +43,7 @@ function Hero() {
   );
 }
 
-// ===== プロジェクトグリッド =====
+// プロジェクトグリッド
 function ProjectsView({ projects }) {
   const [hover, setHover] = useStateL(null);
   return (
@@ -109,7 +107,7 @@ function ProjectsView({ projects }) {
   );
 }
 
-// ===== フッター =====
+// フッター
 function Footer() {
   return (
     <footer style={{
