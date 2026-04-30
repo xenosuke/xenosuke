@@ -33,7 +33,7 @@ function Hero() {
         fontWeight: 700, lineHeight: 1, letterSpacing: "-0.03em",
         margin: 0, color: "var(--fg)", maxWidth: "70%",
       }}>
-        A Selection of My <span style={{
+        My<span style={{
           background: "var(--accent-1)", color: "var(--bg)",
           padding: "0 0.15em", display: "inline-block",
           transform: "rotate(-2deg)",
