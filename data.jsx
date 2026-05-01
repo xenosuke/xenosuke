@@ -40,6 +40,7 @@ const PROJECTS = [
   {
     id: 4,
     title: "仕込んで！！ポーション工房",
+    image: "textures/004.png",
     subtitle: "2Dクラフトゲーム",
     year: "2026",
     role: "個人開発",
