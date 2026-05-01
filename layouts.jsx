@@ -118,7 +118,7 @@ function Footer() {
       gap: 32, alignItems: "center",
     }}>
       <div style={{ fontSize: 13, fontFamily: "ui-monospace, monospace" }}>
-        <span style={{ opacity: 0.6 }}>© 2026 suke · Hosted on GitHub Pages · </span>
+        <span style={{ opacity: 0.6 }}>© 2026 sukenosuke · Hosted on GitHub Pages · </span>
         <a
           href="./notes.html"
           style={{
@@ -131,9 +131,7 @@ function Footer() {
         >notes</a>
       </div>
       <div style={{ display: "flex", gap: 16, fontFamily: "ui-monospace, monospace", fontSize: 13 }}>
-        <a href="#" style={{ color: "var(--fg)", textDecoration: "none", borderBottom: "1px solid var(--fg)" }}>GitHub</a>
-        <a href="#" style={{ color: "var(--fg)", textDecoration: "none", borderBottom: "1px solid var(--fg)" }}>X</a>
-        <a href="#" style={{ color: "var(--fg)", textDecoration: "none", borderBottom: "1px solid var(--fg)" }}>itch.io</a>
+        <a href="https://unityroom.com/users/sukenosuke" style={{ color: "var(--fg)", textDecoration: "none", borderBottom: "1px solid var(--fg)" }}>UnityRoom</a>
       </div>
     </footer>
   );
