@@ -29,16 +29,10 @@ function NavBar({ darkMode, onToggleDark }) {
   return (
     <nav style={{
       position: "sticky", top: 0,
-      display: "flex", justifyContent: "space-between", alignItems: "center",
+      display: "flex", justifyContent: "flex-end", alignItems: "center",
       padding: "20px 48px", borderBottom: "1px solid var(--border)",
       background: "var(--bg)", zIndex: 100, backdropFilter: "blur(8px)",
     }}>
-      <div style={{
-        fontFamily: "'Space Grotesk', system-ui, sans-serif",
-        fontSize: 18, fontWeight: 700, letterSpacing: "-0.02em",
-      }}>
-        suke<span style={{ color: "var(--accent-1)" }}>.</span>
-      </div>
       <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
         <a href="#works" style={{
           color: "var(--fg)", textDecoration: "none", fontSize: 13,
