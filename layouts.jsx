@@ -25,7 +25,7 @@ function Hero() {
         fontFamily: "ui-monospace, 'SF Mono', Menlo, monospace",
         fontSize: 11, letterSpacing: "0.2em", opacity: 0.6, marginBottom: 16,
       }}>
-        ★ SUKENOSUKE'S GAME SHELF ★
+        game developer 2025–2026
       </div>
       <h1 style={{
         fontFamily: "'Space Grotesk', system-ui, sans-serif",
