@@ -28,6 +28,7 @@ const PROJECTS = [
   {
     id: 3,
     title: "稼いで！！ポーション工房",
+    image: "textures/003.png",
     subtitle: "2Dカードゲーム",
     year: "2025",
     role: "個人開発",
