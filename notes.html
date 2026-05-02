@@ -46,7 +46,7 @@
   /* ===== NAV ===== */
   .nav {
     position: sticky; top: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: flex-end; align-items: center;
     padding: 20px 48px;
     border-bottom: 1px solid var(--border);
     background: var(--bg); backdrop-filter: blur(8px);
@@ -139,7 +139,39 @@
   /* ===== SHELVES ===== */
   .shelves { padding: 32px 48px 80px; }
 
-  .shelf { margin-bottom: 12px; }
+  /* ===== BIG CATEGORY ===== */
+  .big-cat { margin-bottom: 24px; }
+  .big-cat-header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 24px;
+    background: var(--fg); color: var(--bg);
+    border-radius: 14px;
+    margin-bottom: 8px;
+    user-select: none;
+  }
+  .big-cat-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--bg); opacity: 0.15; flex-shrink: 0;
+  }
+  .big-cat-label {
+    font-size: 11px; font-family: ui-monospace, monospace;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    opacity: 0.55; flex-shrink: 0;
+  }
+  .big-cat-name {
+    font-size: 18px; font-weight: 700; letter-spacing: -0.02em; flex: 1;
+    color: var(--bg);
+  }
+  .big-cat-badge {
+    font-family: ui-monospace, monospace; font-size: 11px;
+    border: 1px solid rgba(255,255,255,0.3); padding: 2px 10px; border-radius: 999px;
+    color: var(--bg); opacity: 0.7;
+  }
+
+  .big-cat-shelves { display: flex; flex-direction: column; gap: 6px; padding-left: 16px; }
+
+  /* ===== SHELF ===== */
+  .shelf { margin-bottom: 0; }
 
   .shelf-header {
     display: flex; align-items: center; gap: 16px;
@@ -186,36 +218,12 @@
   }
   .footer a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
 
-  /* ===== TWEAKS ===== */
-  .tweaks-panel {
-    position: fixed; bottom: 24px; right: 24px; width: 220px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 16px;
-    box-shadow: 6px 6px 0 var(--fg); z-index: 9999;
-    font-family: inherit; font-size: 12px; color: var(--fg);
-    display: none;
-  }
-  .tweaks-panel.visible { display: block; }
-  .tweaks-label { font-family: ui-monospace, monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; margin-bottom: 12px; }
-  .tweaks-row { display: flex; justify-content: space-between; align-items: center; }
-  .tweaks-switch {
-    width: 44px; height: 24px; border-radius: 12px;
-    border: 1px solid var(--border); background: transparent;
-    cursor: pointer; padding: 2px; display: flex;
-    transition: all 0.2s;
-  }
-  .tweaks-switch.on { background: var(--a1); justify-content: flex-end; }
-  .tweaks-switch:not(.on) { justify-content: flex-start; }
-  .tweaks-knob { width: 18px; height: 18px; border-radius: 50%; background: var(--fg); }
-  .tweaks-switch.on .tweaks-knob { background: var(--bg); }
-
   mark { background: var(--a5); color: var(--fg); border-radius: 2px; padding: 0 1px; }
 </style>
 </head>
 <body>
 
 <nav class="nav">
-  <a class="nav-logo" href="./index.html">suke<span>.</span></a>
   <div class="nav-right">
     <span class="nav-label">PRIVATE</span>
     <button class="nav-dark" id="dark-btn" aria-label="ダークモード切替">☀</button>
@@ -254,80 +262,103 @@
   <a href="./index.html">← portfolio へ戻る</a>
 </footer>
 
-<div class="tweaks-panel" id="tweaks-panel">
-  <div class="tweaks-label">▼ Tweaks</div>
-  <div class="tweaks-row">
-    <span style="font-size:12px;opacity:0.7">ダークモード</span>
-    <button class="tweaks-switch" id="tweaks-switch">
-      <div class="tweaks-knob"></div>
-    </button>
-  </div>
-</div>
-
 <script>
-const CATEGORIES = [
+// 大カテゴリ → サブカテゴリ → 記事 の階層構造
+const BIG_CATEGORIES = [
   {
-    id: "cpp", name: "C++", accent: "var(--a3)",
-    articles: [
-      { title: "C++ でのメモリ管理入門：スタックとヒープを理解する", url: "#" },
-      { title: "スマートポインタ (unique_ptr / shared_ptr) 実践ガイド", url: "#" },
-      { title: "テンプレートメタプログラミングで型安全なコンポーネントを作る", url: "#" },
-      { title: "C++17 の構造化束縛でコードをスッキリさせる", url: "#" },
-      { title: "constexpr を使った定数式の最適化テクニック", url: "#" },
-      { title: "ムーブセマンティクスを完全理解する", url: "#" },
+    id: "engine",
+    name: "エンジン",
+    label: "ENGINE",
+    accent: "var(--a5)",
+    subs: [
+      {
+        id: "unity", name: "Unity", accent: "var(--a5)",
+        articles: [
+          { title: "UniTask で非同期処理を分かりやすく書く", url: "#" },
+          { title: "ScriptableObject でマスターデータを管理する設計パターン", url: "#" },
+          { title: "Shader Graph でディゾルブエフェクトを作る", url: "#" },
+          { title: "ML-Agents を使って敵 AI に強化学習させてみた", url: "#" },
+          { title: "ジェスチャー入力の認識アルゴリズムを C# で自作する", url: "#" },
+        ],
+      },
     ],
   },
   {
-    id: "winapi", name: "Windows API", accent: "var(--a2)",
-    articles: [
-      { title: "Win32 API でウィンドウを作るミニマル実装", url: "#" },
-      { title: "メッセージループを自分で書いて理解する", url: "#" },
-      { title: "WM_PAINT と GDI による基本的な描画処理", url: "#" },
-      { title: "タイマー (SetTimer) を使ったゲームループの実装", url: "#" },
-      { title: "Raw Input でマウス・キーボードを直接取得する", url: "#" },
-      { title: "マルチウィンドウ構成と子ウィンドウの管理", url: "#" },
+    id: "library",
+    name: "ライブラリ",
+    label: "LIBRARY",
+    accent: "var(--a1)",
+    subs: [
+      {
+        id: "directx", name: "DirectX", accent: "var(--a1)",
+        articles: [
+          { title: "DirectX 12 初期化のボイラープレートを最小構成で書く", url: "#" },
+          { title: "SwapChain と RenderTarget の仕組みをちゃんと理解する", url: "#" },
+          { title: "頂点バッファ・インデックスバッファの作り方", url: "#" },
+          { title: "HLSL でピクセルシェーダーを書いて色を変える", url: "#" },
+          { title: "コンスタントバッファで行列を GPU に渡す仕組み", url: "#" },
+        ],
+      },
+      {
+        id: "directxtk", name: "DirectXTK", accent: "var(--a4)",
+        articles: [
+          { title: "DirectXTK の SpriteBatch で 2D 描画を爆速実装", url: "#" },
+          { title: "DirectXTK12 の SimpleMath を使ったベクトル/行列演算", url: "#" },
+        ],
+      },
+      {
+        id: "dxlib", name: "DXライブラリ", accent: "var(--a2)",
+        articles: [
+          { title: "DXライブラリ環境構築 (Visual Studio 2022)", url: "#" },
+          { title: "DrawGraph / LoadGraph で画像を表示する基本", url: "#" },
+          { title: "SetDrawScreen でレンダリングターゲットを切り替える", url: "#" },
+          { title: "DXライブラリで当たり判定を自作する", url: "#" },
+          { title: "サウンド再生 (PlaySoundMem) の注意点まとめ", url: "#" },
+          { title: "ゲームステートマネージャを DXライブラリで作る", url: "#" },
+        ],
+      },
     ],
   },
   {
-    id: "directx", name: "DirectX / DirectXTK", accent: "var(--a1)",
-    articles: [
-      { title: "DirectX 12 初期化のボイラープレートを最小構成で書く", url: "#" },
-      { title: "SwapChain と RenderTarget の仕組みをちゃんと理解する", url: "#" },
-      { title: "頂点バッファ・インデックスバッファの作り方", url: "#" },
-      { title: "HLSL でピクセルシェーダーを書いて色を変える", url: "#" },
-      { title: "DirectXTK の SpriteBatch で 2D 描画を爆速実装", url: "#" },
-      { title: "DirectXTK12 の SimpleMath を使ったベクトル/行列演算", url: "#" },
-      { title: "コンスタントバッファで行列を GPU に渡す仕組み", url: "#" },
-    ],
-  },
-  {
-    id: "dxlib", name: "DXライブラリ", accent: "var(--a4)",
-    articles: [
-      { title: "DXライブラリ環境構築 (Visual Studio 2022)", url: "#" },
-      { title: "DrawGraph / LoadGraph で画像を表示する基本", url: "#" },
-      { title: "SetDrawScreen でレンダリングターゲットを切り替える", url: "#" },
-      { title: "DXライブラリで当たり判定を自作する", url: "#" },
-      { title: "サウンド再生 (PlaySoundMem) の注意点まとめ", url: "#" },
-      { title: "ゲームステートマネージャを DXライブラリで作る", url: "#" },
-    ],
-  },
-  {
-    id: "unity", name: "C# / Unity", accent: "var(--a5)",
-    articles: [
-      { title: "UniTask で非同期処理を分かりやすく書く", url: "#" },
-      { title: "ScriptableObject でマスターデータを管理する設計パターン", url: "#" },
-      { title: "Shader Graph でディゾルブエフェクトを作る", url: "#" },
-      { title: "ML-Agents を使って敵 AI に強化学習させてみた", url: "#" },
-      { title: "ジェスチャー入力の認識アルゴリズムを C# で自作する", url: "#" },
+    id: "lang",
+    name: "言語",
+    label: "LANGUAGE",
+    accent: "var(--a3)",
+    subs: [
+      {
+        id: "csharp", name: "C#", accent: "var(--a3)",
+        articles: [
+          { title: "C# の async/await を基礎から理解する", url: "#" },
+          { title: "LINQ を使ったコレクション操作パターン集", url: "#" },
+          { title: "ジェネリクスで型安全な汎用クラスを作る", url: "#" },
+        ],
+      },
+      {
+        id: "cpp", name: "C++", accent: "var(--a3)",
+        articles: [
+          { title: "C++ でのメモリ管理入門：スタックとヒープを理解する", url: "#" },
+          { title: "スマートポインタ (unique_ptr / shared_ptr) 実践ガイド", url: "#" },
+          { title: "テンプレートメタプログラミングで型安全なコンポーネントを作る", url: "#" },
+          { title: "C++17 の構造化束縛でコードをスッキリさせる", url: "#" },
+          { title: "constexpr を使った定数式の最適化テクニック", url: "#" },
+          { title: "ムーブセマンティクスを完全理解する", url: "#" },
+        ],
+      },
     ],
   },
 ];
 
-const TOTAL = CATEGORIES.reduce((s, c) => s + c.articles.length, 0);
+const TOTAL = BIG_CATEGORIES.reduce((s, bc) => s + bc.subs.reduce((s2, c) => s2 + c.articles.length, 0), 0);
 
 let dark = localStorage.getItem("notes-dark") === "1";
 let query = "";
-let openState = Object.fromEntries(CATEGORIES.map((c, i) => [c.id, i === 0]));
+
+// 開閉状態：大カテゴリは初期すべて開く、サブは最初の1つだけ開く
+let bigOpenState = Object.fromEntries(BIG_CATEGORIES.map(bc => [bc.id, true]));
+let openState = {};
+BIG_CATEGORIES.forEach((bc, bi) => {
+  bc.subs.forEach((c, ci) => { openState[c.id] = ci === 0; });
+});
 
 function hl(text, q) {
   if (!q) return text;
@@ -339,55 +370,94 @@ function hl(text, q) {
 function applyDark() {
   document.documentElement.setAttribute("data-dark", dark ? "1" : "0");
   document.getElementById("dark-btn").textContent = dark ? "☾" : "☀";
-  const sw = document.getElementById("tweaks-switch");
-  sw.classList.toggle("on", dark);
   localStorage.setItem("notes-dark", dark ? "1" : "0");
 }
 
 function render() {
   applyDark();
-  document.getElementById("hero-meta").textContent = TOTAL + " articles · 2026.04";
+  document.getElementById("hero-meta").textContent = TOTAL + " articles · 2026.05";
 
   const shelves = document.getElementById("shelves");
   shelves.innerHTML = "";
   let matchTotal = 0;
 
-  CATEGORIES.forEach((cat, ci) => {
-    const filtered = query
-      ? cat.articles.filter(a => a.title.toLowerCase().includes(query.toLowerCase()))
-      : cat.articles;
-    if (query && filtered.length === 0) return;
-    matchTotal += filtered.length;
+  BIG_CATEGORIES.forEach(bc => {
+    // 大カテゴリ内にヒットが1件でもあるか確認
+    const hasHit = bc.subs.some(c =>
+      !query || c.articles.some(a => a.title.toLowerCase().includes(query.toLowerCase()))
+    );
+    if (query && !hasHit) return;
 
-    const isOpen = query ? true : openState[cat.id];
-    const badge = query ? `${filtered.length} / ${cat.articles.length} 件` : `${cat.articles.length} 件`;
-    const itemH = 38;
-    const bodyH = filtered.length * itemH + 20;
+    const bigTotal = bc.subs.reduce((s, c) => s + c.articles.length, 0);
+    const bigFiltered = bc.subs.reduce((s, c) => s + (query
+      ? c.articles.filter(a => a.title.toLowerCase().includes(query.toLowerCase())).length
+      : c.articles.length), 0);
 
-    const shelf = document.createElement("div");
-    shelf.className = "shelf";
-    shelf.innerHTML = `
-      <div class="shelf-header" data-id="${cat.id}">
-        <div class="shelf-dot" style="background:${cat.accent}"></div>
-        <span class="shelf-name">${cat.name}</span>
-        <span class="shelf-badge">${badge}</span>
-        <span class="shelf-arrow ${isOpen ? "open" : ""}">▶</span>
-      </div>
-      <div class="shelf-body" style="max-height:${isOpen ? bodyH : 0}px">
-        <div class="shelf-entries">
-          ${filtered.map((a, ai) => `
-            <div class="entry">
-              <span class="entry-num">${String(ai + 1).padStart(3, "0")}</span>
-              <a href="${a.url}" class="entry-link" target="_blank" rel="noopener">${hl(a.title, query)}</a>
-            </div>`).join("")}
-        </div>
-      </div>`;
+    const bigDiv = document.createElement("div");
+    bigDiv.className = "big-cat";
 
-    shelf.querySelector(".shelf-header").addEventListener("click", () => {
-      openState[cat.id] = !openState[cat.id];
+    // 大カテゴリヘッダー
+    const bigHeader = document.createElement("div");
+    bigHeader.className = "big-cat-header";
+    bigHeader.style.background = bc.accent.replace("var(--a", "").replace(")", ""); // fallback
+    bigHeader.style.background = `var(--fg)`;
+    bigHeader.innerHTML = `
+      <span class="big-cat-label">${bc.label}</span>
+      <span class="big-cat-name">${bc.name}</span>
+      <span class="big-cat-badge">${query ? bigFiltered + " / " + bigTotal : bigTotal} 件</span>
+    `;
+    bigHeader.style.cursor = "pointer";
+    bigHeader.addEventListener("click", () => {
+      bigOpenState[bc.id] = !bigOpenState[bc.id];
       render();
     });
-    shelves.appendChild(shelf);
+    bigDiv.appendChild(bigHeader);
+
+    // サブカテゴリ群
+    const subsWrap = document.createElement("div");
+    subsWrap.className = "big-cat-shelves";
+    subsWrap.style.display = bigOpenState[bc.id] ? "flex" : "none";
+
+    bc.subs.forEach(cat => {
+      const filtered = query
+        ? cat.articles.filter(a => a.title.toLowerCase().includes(query.toLowerCase()))
+        : cat.articles;
+      if (query && filtered.length === 0) return;
+      matchTotal += filtered.length;
+
+      const isOpen = query ? true : openState[cat.id];
+      const badge = query ? `${filtered.length} / ${cat.articles.length} 件` : `${cat.articles.length} 件`;
+      const itemH = 38;
+      const bodyH = filtered.length * itemH + 20;
+
+      const shelf = document.createElement("div");
+      shelf.className = "shelf";
+      shelf.innerHTML = `
+        <div class="shelf-header" data-id="${cat.id}">
+          <div class="shelf-dot" style="background:${cat.accent}"></div>
+          <span class="shelf-name">${cat.name}</span>
+          <span class="shelf-badge">${badge}</span>
+          <span class="shelf-arrow ${isOpen ? "open" : ""}">▶</span>
+        </div>
+        <div class="shelf-body" style="max-height:${isOpen ? bodyH : 0}px">
+          <div class="shelf-entries">
+            ${filtered.map((a, ai) => `
+              <div class="entry">
+                <span class="entry-num">${String(ai + 1).padStart(3, "0")}</span>
+                <a href="${a.url}" class="entry-link" target="_blank" rel="noopener">${hl(a.title, query)}</a>
+              </div>`).join("")}
+          </div>
+        </div>`;
+
+      shelf.querySelector(".shelf-header").addEventListener("click", () => {
+        openState[cat.id] = !openState[cat.id];
+        render();
+      });
+      subsWrap.appendChild(shelf);
+    });
+
+    bigDiv.appendChild(subsWrap);
+    shelves.appendChild(bigDiv);
   });
 
   const countEl = document.getElementById("search-count");
@@ -396,16 +466,7 @@ function render() {
 
 // Events
 document.getElementById("dark-btn").addEventListener("click", () => { dark = !dark; render(); });
-document.getElementById("tweaks-switch").addEventListener("click", () => { dark = !dark; render(); });
 document.getElementById("search-input").addEventListener("input", e => { query = e.target.value; render(); });
-
-// Tweaks panel
-window.addEventListener("message", e => {
-  if (!e.data) return;
-  if (e.data.type === "__activate_edit_mode") document.getElementById("tweaks-panel").classList.add("visible");
-  if (e.data.type === "__deactivate_edit_mode") document.getElementById("tweaks-panel").classList.remove("visible");
-});
-window.parent.postMessage({ type: "__edit_mode_available" }, "*");
 
 render();
 </script>
