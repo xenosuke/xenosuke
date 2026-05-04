@@ -52,9 +52,12 @@ function NavBar({ darkMode, onToggleDark }) {
 }
 
 function App() {
-  const [darkMode, setDarkMode] = useS(false);
+  const [darkMode, setDarkMode] = useS(() => localStorage.getItem("dark") === "1");
 
-  useE(() => { applyPalette(darkMode); }, [darkMode]);
+    useE(() => {
+    applyPalette(darkMode);
+    localStorage.setItem("dark", darkMode ? "1" : "0");
+  }, [darkMode]);
 
   return (
     <div style={{
