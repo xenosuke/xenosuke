@@ -10,11 +10,26 @@
         "name": "Unity",
         "accent": "var(--a5)",
         "articles": [
-          { "title": "UniTask で非同期処理を分かりやすく書く", "url": "#" },
-          { "title": "ScriptableObject でマスターデータを管理する設計パターン", "url": "#" },
-          { "title": "Shader Graph でディゾルブエフェクトを作る", "url": "#" },
-          { "title": "ML-Agents を使って敵 AI に強化学習させてみた", "url": "#" },
-          { "title": "ジェスチャー入力の認識アルゴリズムを C# で自作する", "url": "#" }
+          {
+            "title": "UniTask で非同期処理を分かりやすく書く",
+            "url": "#"
+          },
+          {
+            "title": "ScriptableObject でマスターデータを管理する設計パターン",
+            "url": "#"
+          },
+          {
+            "title": "Shader Graph でディゾルブエフェクトを作る",
+            "url": "#"
+          },
+          {
+            "title": "ML-Agents を使って敵 AI に強化学習させてみた",
+            "url": "#"
+          },
+          {
+            "title": "ジェスチャー入力の認識アルゴリズムを C# で自作する",
+            "url": "#"
+          }
         ]
       }
     ]
@@ -30,11 +45,26 @@
         "name": "DirectX",
         "accent": "var(--a1)",
         "articles": [
-          { "title": "DirectX 12 初期化のボイラープレートを最小構成で書く", "url": "#" },
-          { "title": "SwapChain と RenderTarget の仕組みをちゃんと理解する", "url": "#" },
-          { "title": "頂点バッファ・インデックスバッファの作り方", "url": "#" },
-          { "title": "HLSL でピクセルシェーダーを書いて色を変える", "url": "#" },
-          { "title": "コンスタントバッファで行列を GPU に渡す仕組み", "url": "#" }
+          {
+            "title": "DirectX 12 初期化のボイラープレートを最小構成で書く",
+            "url": "#"
+          },
+          {
+            "title": "SwapChain と RenderTarget の仕組みをちゃんと理解する",
+            "url": "#"
+          },
+          {
+            "title": "頂点バッファ・インデックスバッファの作り方",
+            "url": "#"
+          },
+          {
+            "title": "HLSL でピクセルシェーダーを書いて色を変える",
+            "url": "#"
+          },
+          {
+            "title": "コンスタントバッファで行列を GPU に渡す仕組み",
+            "url": "#"
+          }
         ]
       },
       {
@@ -42,8 +72,14 @@
         "name": "DirectXTK",
         "accent": "var(--a4)",
         "articles": [
-          { "title": "DirectXTK の SpriteBatch で 2D 描画を爆速実装", "url": "#" },
-          { "title": "DirectXTK12 の SimpleMath を使ったベクトル/行列演算", "url": "#" }
+          {
+            "title": "DirectXTK の SpriteBatch で 2D 描画を爆速実装",
+            "url": "#"
+          },
+          {
+            "title": "DirectXTK12 の SimpleMath を使ったベクトル/行列演算",
+            "url": "#"
+          }
         ]
       },
       {
@@ -51,12 +87,30 @@
         "name": "DXライブラリ",
         "accent": "var(--a2)",
         "articles": [
-          { "title": "DXライブラリ環境構築 (Visual Studio 2022)", "url": "#" },
-          { "title": "DrawGraph / LoadGraph で画像を表示する基本", "url": "#" },
-          { "title": "SetDrawScreen でレンダリングターゲットを切り替える", "url": "#" },
-          { "title": "DXライブラリで当たり判定を自作する", "url": "#" },
-          { "title": "サウンド再生 (PlaySoundMem) の注意点まとめ", "url": "#" },
-          { "title": "ゲームステートマネージャを DXライブラリで作る", "url": "#" }
+          {
+            "title": "DXライブラリ環境構築 (Visual Studio 2022)",
+            "url": "#"
+          },
+          {
+            "title": "DrawGraph / LoadGraph で画像を表示する基本",
+            "url": "#"
+          },
+          {
+            "title": "SetDrawScreen でレンダリングターゲットを切り替える",
+            "url": "#"
+          },
+          {
+            "title": "DXライブラリで当たり判定を自作する",
+            "url": "#"
+          },
+          {
+            "title": "サウンド再生 (PlaySoundMem) の注意点まとめ",
+            "url": "#"
+          },
+          {
+            "title": "ゲームステートマネージャを DXライブラリで作る",
+            "url": "#"
+          }
         ]
       }
     ]
@@ -72,9 +126,18 @@
         "name": "C#",
         "accent": "var(--a3)",
         "articles": [
-          { "title": "C# の async/await を基礎から理解する", "url": "#" },
-          { "title": "LINQ を使ったコレクション操作パターン集", "url": "#" },
-          { "title": "ジェネリクスで型安全な汎用クラスを作る", "url": "#" }
+          {
+            "title": "C# の async/await を基礎から理解する",
+            "url": "#"
+          },
+          {
+            "title": "LINQ を使ったコレクション操作パターン集",
+            "url": "#"
+          },
+          {
+            "title": "ジェネリクスで型安全な汎用クラスを作る",
+            "url": "#"
+          }
         ]
       },
       {
@@ -82,12 +145,38 @@
         "name": "C++",
         "accent": "var(--a3)",
         "articles": [
-          { "title": "C++ でのメモリ管理入門：スタックとヒープを理解する", "url": "#" },
-          { "title": "スマートポインタ (unique_ptr / shared_ptr) 実践ガイド", "url": "#" },
-          { "title": "テンプレートメタプログラミングで型安全なコンポーネントを作る", "url": "#" },
-          { "title": "C++17 の構造化束縛でコードをスッキリさせる", "url": "#" },
-          { "title": "constexpr を使った定数式の最適化テクニック", "url": "#" },
-          { "title": "ムーブセマンティクスを完全理解する", "url": "#" }
+          {
+            "title": "文字列クラス",
+            "url": "https://qiita.com/xenosuke/private/072e305026b9b0c1cd3b"
+          },
+          {
+            "title": "文字列を空にする",
+            "url": "https://qiita.com/xenosuke/private/2da38b45a014355b1328"
+          },
+          {
+            "title": "文字列を検索する",
+            "url": "https://qiita.com/xenosuke/private/cfb158d1718d1d02769b"
+          },
+          {
+            "title": "文字列の長さを取得",
+            "url": "https://qiita.com/xenosuke/private/6452922944aeb3d1857f"
+          },
+          {
+            "title": "文字列の挿入",
+            "url": "https://qiita.com/xenosuke/private/fddcddb48919784bedfa"
+          },
+          {
+            "title": "文字列の先頭ポインタを取得する",
+            "url": "https://qiita.com/xenosuke/private/0649e1bdbc55ce063806"
+          },
+          {
+            "title": "エイリアス",
+            "url": "https://qiita.com/xenosuke/private/5d78c4ff3a02139f88b3"
+          },
+          {
+            "title": "静的型付き言語なのにstd::any",
+            "url": "https://qiita.com/xenosuke/private/4dfa844a78133d6f0d77"
+          }
         ]
       }
     ]
