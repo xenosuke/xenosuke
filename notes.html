@@ -238,7 +238,7 @@
   </div>
   <div>
     <div class="hero-title">
-      quick <em>notes</em>
+      suke's <em>notes</em>
     </div>
     <div style="margin-top:12px;font-size:14px;opacity:0.6;font-family:ui-monospace,monospace;letter-spacing:0.05em">
       Qiita 非公開記事リンク集
@@ -379,11 +379,11 @@ function render() {
 
 function init(data) {
   BIG_CATEGORIES = data;
-  // 開閉状態の初期化
+  // 開閉状態の初期化（大カテゴリは開く＝サブカテゴリが見える、サブはすべて閉じる）
   bigOpenState = Object.fromEntries(BIG_CATEGORIES.map(bc => [bc.id, true]));
   openState = {};
   BIG_CATEGORIES.forEach(bc => {
-    bc.subs.forEach((c, ci) => { openState[c.id] = ci === 0; });
+    bc.subs.forEach(c => { openState[c.id] = false; });
   });
 
   document.getElementById("dark-btn").addEventListener("click", () => { dark = !dark; render(); });
