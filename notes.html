@@ -238,7 +238,7 @@
   </div>
   <div>
     <div class="hero-title">
-      Quick <em>notes</em>
+      quick <em>notes</em>
     </div>
     <div style="margin-top:12px;font-size:14px;opacity:0.6;font-family:ui-monospace,monospace;letter-spacing:0.05em">
       Qiita 非公開記事リンク集
@@ -263,104 +263,16 @@
 </footer>
 
 <script>
-// 大カテゴリ → サブカテゴリ → 記事 の階層構造
-const BIG_CATEGORIES = [
-  {
-    id: "engine",
-    name: "エンジン",
-    label: "ENGINE",
-    accent: "var(--a5)",
-    subs: [
-      {
-        id: "unity", name: "Unity", accent: "var(--a5)",
-        articles: [
-          { title: "SpriteAtlasの基本的な使い方", url: "https://qiita.com/xenosuke/private/8e136ed58f63a00f4613" },
-          { title: "SpriteAtlasのPacking設定について", url: "https://qiita.com/xenosuke/private/22af7b06f0b10deac90b" },
-          { title: "Texture2D Import Settingsについて", url: "https://qiita.com/xenosuke/private/0a1ef7aa4a1a36c5d461" },
-          { title: "ML-Agents を使って敵 AI に強化学習させてみた", url: "#" },
-          { title: "ジェスチャー入力の認識アルゴリズムを C# で自作する", url: "#" },
-        ],
-      },
-    ],
-  },
-  {
-    id: "library",
-    name: "ライブラリ",
-    label: "LIBRARY",
-    accent: "var(--a1)",
-    subs: [
-      {
-        id: "directx", name: "DirectX", accent: "var(--a1)",
-        articles: [
-          { title: "DirectX 12 初期化のボイラープレートを最小構成で書く", url: "#" },
-          { title: "SwapChain と RenderTarget の仕組みをちゃんと理解する", url: "#" },
-          { title: "頂点バッファ・インデックスバッファの作り方", url: "#" },
-          { title: "HLSL でピクセルシェーダーを書いて色を変える", url: "#" },
-          { title: "コンスタントバッファで行列を GPU に渡す仕組み", url: "#" },
-        ],
-      },
-      {
-        id: "directxtk", name: "DirectXTK", accent: "var(--a4)",
-        articles: [
-          { title: "DirectXTK の SpriteBatch で 2D 描画を爆速実装", url: "#" },
-          { title: "DirectXTK12 の SimpleMath を使ったベクトル/行列演算", url: "#" },
-        ],
-      },
-      {
-        id: "dxlib", name: "DXライブラリ", accent: "var(--a2)",
-        articles: [
-          { title: "DXライブラリ環境構築 (Visual Studio 2022)", url: "#" },
-          { title: "DrawGraph / LoadGraph で画像を表示する基本", url: "#" },
-          { title: "SetDrawScreen でレンダリングターゲットを切り替える", url: "#" },
-          { title: "DXライブラリで当たり判定を自作する", url: "#" },
-          { title: "サウンド再生 (PlaySoundMem) の注意点まとめ", url: "#" },
-          { title: "ゲームステートマネージャを DXライブラリで作る", url: "#" },
-        ],
-      },
-    ],
-  },
-  {
-    id: "lang",
-    name: "言語",
-    label: "LANGUAGE",
-    accent: "var(--a3)",
-    subs: [
-      {
-        id: "csharp", name: "C#", accent: "var(--a3)",
-        articles: [
-          { title: "C# の async/await を基礎から理解する", url: "#" },
-          { title: "LINQ を使ったコレクション操作パターン集", url: "#" },
-          { title: "ジェネリクスで型安全な汎用クラスを作る", url: "#" },
-        ],
-      },
-      {
-        id: "cpp", name: "C++", accent: "var(--a3)",
-        articles: [
-          { title: "文字列クラス", url: "https://qiita.com/xenosuke/private/072e305026b9b0c1cd3b" },
-          { title: "文字列を空にする", url: "https://qiita.com/xenosuke/private/2da38b45a014355b1328" },
-          { title: "文字列を検索する", url: "https://qiita.com/xenosuke/private/cfb158d1718d1d02769b" },
-          { title: "文字列の長さを取得", url: "https://qiita.com/xenosuke/private/6452922944aeb3d1857f" },
-          { title: "文字列の挿入", url: "https://qiita.com/xenosuke/private/fddcddb48919784bedfa" },
-          { title: "文字列の先頭ポインタを取得する", url: "https://qiita.com/xenosuke/private/0649e1bdbc55ce063806" },
-          { title: "エイリアス", url: "https://qiita.com/xenosuke/private/5d78c4ff3a02139f88b3" },
-          { title: "静的型付き言語なのにstd::any", url: "https://qiita.com/xenosuke/private/4dfa844a78133d6f0d77" },
-        ],
-      },
-    ],
-  },
-];
+// =====================================================================
+// データは notes-data.json で管理しています。
+// 記事を追加・編集する場合は notes-data.json だけ編集してください。
+// =====================================================================
 
-const TOTAL = BIG_CATEGORIES.reduce((s, bc) => s + bc.subs.reduce((s2, c) => s2 + c.articles.length, 0), 0);
-
-let dark = localStorage.getItem("notes-dark") === "1";
+let BIG_CATEGORIES = [];
+let dark = localStorage.getItem("dark") === "1";
 let query = "";
-
-// 開閉状態：大カテゴリは初期すべて開く、サブは最初の1つだけ開く
-let bigOpenState = Object.fromEntries(BIG_CATEGORIES.map(bc => [bc.id, true]));
+let bigOpenState = {};
 let openState = {};
-BIG_CATEGORIES.forEach((bc, bi) => {
-  bc.subs.forEach((c, ci) => { openState[c.id] = ci === 0; });
-});
 
 function hl(text, q) {
   if (!q) return text;
@@ -372,19 +284,21 @@ function hl(text, q) {
 function applyDark() {
   document.documentElement.setAttribute("data-dark", dark ? "1" : "0");
   document.getElementById("dark-btn").textContent = dark ? "☾" : "☀";
-  localStorage.setItem("notes-dark", dark ? "1" : "0");
+  localStorage.setItem("dark", dark ? "1" : "0");
 }
 
 function render() {
   applyDark();
-  document.getElementById("hero-meta").textContent = TOTAL + " articles · 2026.05";
+  const TOTAL = BIG_CATEGORIES.reduce((s, bc) => s + bc.subs.reduce((s2, c) => s2 + c.articles.length, 0), 0);
+  const now = new Date();
+  const ym = now.getFullYear() + "." + String(now.getMonth() + 1).padStart(2, "0");
+  document.getElementById("hero-meta").textContent = TOTAL + " articles · " + ym;
 
   const shelves = document.getElementById("shelves");
   shelves.innerHTML = "";
   let matchTotal = 0;
 
   BIG_CATEGORIES.forEach(bc => {
-    // 大カテゴリ内にヒットが1件でもあるか確認
     const hasHit = bc.subs.some(c =>
       !query || c.articles.some(a => a.title.toLowerCase().includes(query.toLowerCase()))
     );
@@ -398,11 +312,9 @@ function render() {
     const bigDiv = document.createElement("div");
     bigDiv.className = "big-cat";
 
-    // 大カテゴリヘッダー
     const bigHeader = document.createElement("div");
     bigHeader.className = "big-cat-header";
-    bigHeader.style.background = bc.accent.replace("var(--a", "").replace(")", ""); // fallback
-    bigHeader.style.background = `var(--fg)`;
+    bigHeader.style.background = "var(--fg)";
     bigHeader.innerHTML = `
       <span class="big-cat-label">${bc.label}</span>
       <span class="big-cat-name">${bc.name}</span>
@@ -415,7 +327,6 @@ function render() {
     });
     bigDiv.appendChild(bigHeader);
 
-    // サブカテゴリ群
     const subsWrap = document.createElement("div");
     subsWrap.className = "big-cat-shelves";
     subsWrap.style.display = bigOpenState[bc.id] ? "flex" : "none";
@@ -466,11 +377,33 @@ function render() {
   countEl.textContent = query ? `${matchTotal} 件ヒット` : "";
 }
 
-// Events
-document.getElementById("dark-btn").addEventListener("click", () => { dark = !dark; render(); });
-document.getElementById("search-input").addEventListener("input", e => { query = e.target.value; render(); });
+function init(data) {
+  BIG_CATEGORIES = data;
+  // 開閉状態の初期化
+  bigOpenState = Object.fromEntries(BIG_CATEGORIES.map(bc => [bc.id, true]));
+  openState = {};
+  BIG_CATEGORIES.forEach(bc => {
+    bc.subs.forEach((c, ci) => { openState[c.id] = ci === 0; });
+  });
 
-render();
+  document.getElementById("dark-btn").addEventListener("click", () => { dark = !dark; render(); });
+  document.getElementById("search-input").addEventListener("input", e => { query = e.target.value; render(); });
+
+  render();
+}
+
+// notes-data.json を読み込んで初期化
+fetch("notes-data.json")
+  .then(r => {
+    if (!r.ok) throw new Error("fetch failed: " + r.status);
+    return r.json();
+  })
+  .then(data => init(data))
+  .catch(err => {
+    document.getElementById("shelves").innerHTML =
+      `<p style="padding:48px;font-family:monospace;opacity:0.6;">⚠ notes-data.json の読み込みに失敗しました。<br>${err.message}</p>`;
+    console.error(err);
+  });
 </script>
 </body>
 </html>
