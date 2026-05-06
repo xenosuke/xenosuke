@@ -238,7 +238,7 @@
   </div>
   <div>
     <div class="hero-title">
-      suke's <em>notes</em>
+      quick <em>notes</em>
     </div>
     <div style="margin-top:12px;font-size:14px;opacity:0.6;font-family:ui-monospace,monospace;letter-spacing:0.05em">
       Qiita 非公開記事リンク集
@@ -273,6 +273,26 @@ let dark = localStorage.getItem("dark") === "1";
 let query = "";
 let bigOpenState = {};
 let openState = {};
+
+const LS_BIG = "notes.bigOpenState";
+const LS_SUB = "notes.openState";
+
+function saveOpenState() {
+  try {
+    localStorage.setItem(LS_BIG, JSON.stringify(bigOpenState));
+    localStorage.setItem(LS_SUB, JSON.stringify(openState));
+  } catch (e) {}
+}
+
+function loadOpenState() {
+  try {
+    const big = JSON.parse(localStorage.getItem(LS_BIG) || "null");
+    const sub = JSON.parse(localStorage.getItem(LS_SUB) || "null");
+    return { big, sub };
+  } catch (e) {
+    return { big: null, sub: null };
+  }
+}
 
 function hl(text, q) {
   if (!q) return text;
@@ -323,6 +343,7 @@ function render() {
     bigHeader.style.cursor = "pointer";
     bigHeader.addEventListener("click", () => {
       bigOpenState[bc.id] = !bigOpenState[bc.id];
+      saveOpenState();
       render();
     });
     bigDiv.appendChild(bigHeader);
@@ -364,6 +385,7 @@ function render() {
 
       shelf.querySelector(".shelf-header").addEventListener("click", () => {
         openState[cat.id] = !openState[cat.id];
+        saveOpenState();
         render();
       });
       subsWrap.appendChild(shelf);
@@ -379,11 +401,15 @@ function render() {
 
 function init(data) {
   BIG_CATEGORIES = data;
-  // 開閉状態の初期化（大カテゴリは開く＝サブカテゴリが見える、サブはすべて閉じる）
-  bigOpenState = Object.fromEntries(BIG_CATEGORIES.map(bc => [bc.id, true]));
+  // 開閉状態の初期化（保存があれば復元、なければ大カテゴリのみ開く）
+  const saved = loadOpenState();
+  bigOpenState = {};
   openState = {};
   BIG_CATEGORIES.forEach(bc => {
-    bc.subs.forEach(c => { openState[c.id] = false; });
+    bigOpenState[bc.id] = saved.big && bc.id in saved.big ? !!saved.big[bc.id] : true;
+    bc.subs.forEach(c => {
+      openState[c.id] = saved.sub && c.id in saved.sub ? !!saved.sub[c.id] : false;
+    });
   });
 
   document.getElementById("dark-btn").addEventListener("click", () => { dark = !dark; render(); });
